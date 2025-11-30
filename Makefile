@@ -4,19 +4,22 @@ RM = rm -rf
 CFLAGS = -Werror -Wall
 
 # Dynamically find all .c files (use find's -name for simplicity, no need for grep/|)
-SOURCES := $(shell find ./src -type f -name '*.c')
+SOURCES := $(shell find ./Source -type f -name '*.c')
 
 # Convert sources to objects (assumes obj/ mirrors src/ structure,
 # e.g., src/commands/foo.c -> obj/commands/foo.o)
-OBJECTS := $(patsubst ./src/%.c, ./build/obj/%.o, $(SOURCES))
+OBJECTS := $(patsubst ./Source/%.c, ./Build/obj/%.o, $(SOURCES))
+
+# Dynamically find every .h file in './Include'
+INCLUDE := $(shell find ./Include -type f -name '*.h')
 
 # Main target to build the executable
-build/bin/pato: $(OBJECTS)
+Build/bin/none: $(OBJECTS)
 	$(MKDIR) $(@D)
 	$(CC) $^ -o $@ $(CFLAGS)
 
 # Pattern rule to compile each .c to .o (creates subdirs as needed)
-./build/obj/%.o: ./src/%.c
+./Build/obj/%.o: ./Source/%.c
 	$(MKDIR) $(@D)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
@@ -27,7 +30,7 @@ list_sources:
 	done
 
 clean:
-	$(RM) build
+	$(RM) Build
 
 backup:
 	bash ./Scripts/backup.bash
