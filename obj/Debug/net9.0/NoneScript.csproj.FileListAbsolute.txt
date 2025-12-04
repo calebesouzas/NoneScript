@@ -1,0 +1,14 @@
+/home/calebe/Dev/learning/none-csharp/bin/Debug/net9.0/NoneScript
+/home/calebe/Dev/learning/none-csharp/bin/Debug/net9.0/NoneScript.deps.json
+/home/calebe/Dev/learning/none-csharp/bin/Debug/net9.0/NoneScript.runtimeconfig.json
+/home/calebe/Dev/learning/none-csharp/bin/Debug/net9.0/NoneScript.dll
+/home/calebe/Dev/learning/none-csharp/bin/Debug/net9.0/NoneScript.pdb
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.GeneratedMSBuildEditorConfig.editorconfig
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.AssemblyInfoInputs.cache
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.AssemblyInfo.cs
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.csproj.CoreCompileInputs.cache
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.dll
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/refint/NoneScript.dll
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.pdb
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/NoneScript.genruntimeconfig.cache
+/home/calebe/Dev/learning/none-csharp/obj/Debug/net9.0/ref/NoneScript.dll
