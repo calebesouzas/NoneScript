@@ -1,5 +1,7 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "lexer.h"
 
 /* Function `main`. The entry point of the program.
  * It takes two arguments (which are given by the Shell).
@@ -23,23 +25,49 @@ main(int argc, char *argv[]) {
     // and run the script (always validating before, of course).
     pNSFile = fopen(argv[1], "r");
     if (pNSFile == NULL) {
-      printf("Failed to open file %s\n", argv[1]);
-      return -1;
+      perror("Failed to open file");
+      return 1;
     }
-    int fileSize = 0;
+    off_t fileSize = 0;
     // Get the position of the EOF (End Of File) constant
     fseek(pNSFile, 0, SEEK_END);
     fileSize = ftell(pNSFile); // and asign it to `fileSize`
 
-    char *pNoneScript = (char *)malloc(fileSize);
-    if (pNoneScript == NULL) {
-      printf("Failed to allocate memory for the script\n");
-      return -2;
+    // Handle possible errors when trying to get file size
+    if (fileSize == -1) {
+      perror("Failed to get file size");
+      fclose(pNSFile);
+      return 1;
     }
+
+    fseek(pNSFile, 0, SEEK_SET); // Go back to the begining
+
+    // Allocate memory enought to store the source code.
+    // Then we can close the file early
+    // +1 for the '\0' (Null terminator).
+    char *pNoneScript = (char *)malloc(fileSize + 1);
+    if (pNoneScript == NULL) {
+      perror("Failed to allocate memory for the script");
+      fclose(pNSFile);
+      return 2;
+    }
+
+    size_t newLen = fread(pNoneScript, sizeof(char), fileSize, pNSFile);
+    if (ferror(pNSFile) != 0) {
+      fputs("Failed to read file", stderr);
+      free(pNoneScript);
+      fclose(pNSFile);
+      return 3;
+    }
+    else {
+      pNoneScript[newLen] = '\0'; // Null terminate the buffer
+      fclose(pNSFile);
+      pNSFile = NULL;
+    }
+    tokenize(pNoneScript, fileSize);
 
     free(pNoneScript);
     pNoneScript = NULL;
-    fclose(pNSFile);
   }
   return 0;
 }
