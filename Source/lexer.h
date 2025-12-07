@@ -1,5 +1,6 @@
 #ifndef NONE_LEXER_H
 #define NONE_LEXER_H
+#include <stddef.h>
 #include <stdio.h>
 
 typedef enum {
@@ -20,7 +21,7 @@ typedef enum {
   CloseSquareBracket, // ']'
   OpenCurlyBrace,     // '{'
   CloseCurlyBrace,    // '}'
-
+  EndOfFile           // Yep, it marks the last token in the array
 } token_type_t;
 
 typedef struct {
@@ -28,6 +29,19 @@ typedef struct {
   char value[32];
 } token_t;
 
-void tokenize(char *sourceCode, off_t size);
+typedef struct {
+  token_t *tokens;
+  size_t count;
+  enum {
+    Ok,
+    Error
+  } status;
+  enum {
+    MemoryAllocationFailed,
+    UnrecognizedToken
+  } error;
+} LexerResult;
+
+LexerResult tokenize(const char *sourceCode);
 
 #endif /* ifndef NONE_LEXER_H */
