@@ -3,6 +3,14 @@
 #include <stdlib.h>
 #include "lexer.h"
 
+enum Error {
+  FileOperationFailed,
+  MemoryAllocationError,
+  ScriptRunningFailure
+};
+
+int run(const char *sourceCode);
+
 /* Function `main`. The entry point of the program.
  * It takes two arguments (which are given by the Shell).
  * Param `argc` is the argument count (incliding program name).
@@ -26,9 +34,9 @@ main(int argc, char *argv[]) {
     pNSFile = fopen(argv[1], "r");
     if (pNSFile == NULL) {
       perror("Failed to open file");
-      return 1;
+      return FileOperationFailed;
     }
-    off_t fileSize = 0;
+    size_t fileSize = 0;
     // Get the position of the EOF (End Of File) constant
     fseek(pNSFile, 0, SEEK_END);
     fileSize = ftell(pNSFile); // and asign it to `fileSize`
@@ -37,7 +45,7 @@ main(int argc, char *argv[]) {
     if (fileSize == -1) {
       perror("Failed to get file size");
       fclose(pNSFile);
-      return 1;
+      return FileOperationFailed;
     }
 
     fseek(pNSFile, 0, SEEK_SET); // Go back to the begining
@@ -49,18 +57,19 @@ main(int argc, char *argv[]) {
     if (pNoneScript == NULL) {
       perror("Failed to allocate memory for the script");
       fclose(pNSFile);
-      return 2;
+      return MemoryAllocationError;
     }
 
     // Getting index of last character (size of NoneScript buffer + 1)
     // and also storing the NS file's content into `pNoneScript`
+    
     size_t lastChar = fread(pNoneScript, sizeof(char), fileSize, pNSFile);
 
     if (ferror(pNSFile) != 0) {
       fputs("Failed to read file", stderr);
       free(pNoneScript);
       fclose(pNSFile);
-      return 3;
+      return FileOperationFailed;
     }
     else {
       pNoneScript[lastChar] = '\0'; // Null terminate the buffer
@@ -68,10 +77,41 @@ main(int argc, char *argv[]) {
       pNSFile = NULL;
     }
 
-    tokenize(pNoneScript, fileSize);
+    int ranSuccessfully = run(pNoneScript);
+    if (!ranSuccessfully) {
+      printf("Failed to run script");
+      return ScriptRunningFailure;
+    }
 
     free(pNoneScript);
     pNoneScript = NULL;
   }
-  return 0;
+    return 0;
+}
+
+int
+run(const char *sourceCode) {
+  LexerResult lexerResult = tokenize(sourceCode);
+  if (lexerResult.status == Error) {
+    switch (lexerResult.error) {
+      case MemoryAllocationFailed:
+        perror("Failed to allocate memory for the tokens");
+        return 0;
+      
+      case UnrecognizedToken:
+        printf("Unrecognized token: ");
+        char *unrecognizedToken = lexerResult.tokens[lexerResult.count].value;
+        printf("%s\n", unrecognizedToken);
+        free(lexerResult.tokens);
+        return 0;
+    }
+  }
+  else {
+    for (int i = 0; i < lexerResult.count; i++) {
+      printf("Found token: { value: %s },\n",
+              lexerResult.tokens[i].value);
+    }
+  }
+
+  return 1;
 }
