@@ -52,7 +52,10 @@ main(int argc, char *argv[]) {
       return 2;
     }
 
-    size_t newLen = fread(pNoneScript, sizeof(char), fileSize, pNSFile);
+    // Getting index of last character (size of NoneScript buffer + 1)
+    // and also storing the NS file's content into `pNoneScript`
+    size_t lastChar = fread(pNoneScript, sizeof(char), fileSize, pNSFile);
+
     if (ferror(pNSFile) != 0) {
       fputs("Failed to read file", stderr);
       free(pNoneScript);
@@ -60,10 +63,11 @@ main(int argc, char *argv[]) {
       return 3;
     }
     else {
-      pNoneScript[newLen] = '\0'; // Null terminate the buffer
+      pNoneScript[lastChar] = '\0'; // Null terminate the buffer
       fclose(pNSFile);
       pNSFile = NULL;
     }
+
     tokenize(pNoneScript, fileSize);
 
     free(pNoneScript);
