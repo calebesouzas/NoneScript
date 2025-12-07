@@ -1,7 +1,8 @@
 CC = gcc
 MKDIR = mkdir -p
 RM = rm -rf
-CFLAGS = -Werror -Wall
+CFLAGS = -Werror -Wall -g
+DEBUG_ARGS ?=
 
 # Dynamically find all .c files (use find's -name for simplicity, no need for grep/|)
 SOURCES := $(shell find ./Source -type f -name '*.c')
@@ -34,3 +35,6 @@ clean:
 
 backup:
 	bash ./Scripts/backup.bash
+
+debug: clean Build/bin/none
+	clear && gdb --args ./Build/bin/none $(DEBUG_ARGS)
