@@ -3,6 +3,8 @@
 #include <stdio.h>
 
 typedef enum {
+  Let,                // Let keyword
+  Const,              // Const keyword
   Identifier,         // Identifier
   EqualsSymbol,       // '='
   QuestionMark,       // '?'
@@ -23,7 +25,7 @@ typedef enum {
 
 typedef struct {
   token_type_t type;
-  char *value;
+  char value[32];
 } token_t;
 
 void tokenize(char *sourceCode, off_t size);
