@@ -1,2 +1,4 @@
 [Bb]ackups/
 [Bb]uild/
+[Gg]enerated/
+.cache/

@@ -1,7 +1,7 @@
 CC = gcc
 MKDIR = mkdir -p
 RM = rm -rf
-CFLAGS = -Werror -Wall -g
+CFLAGS = -IInclude -Werror -Wall -g
 DEBUG_ARGS ?=
 
 # Dynamically find all .c files (use find's -name for simplicity, no need for grep/|)
@@ -10,9 +10,6 @@ SOURCES := $(shell find ./Source -type f -name '*.c')
 # Convert sources to objects (assumes obj/ mirrors src/ structure,
 # e.g., src/commands/foo.c -> obj/commands/foo.o)
 OBJECTS := $(patsubst ./Source/%.c, ./Build/obj/%.o, $(SOURCES))
-
-# Dynamically find every .h file in './Include'
-INCLUDE := $(shell find ./Include -type f -name '*.h')
 
 # Main target to build the executable
 Build/bin/none: $(OBJECTS)
@@ -27,6 +24,11 @@ Build/bin/none: $(OBJECTS)
 # Optional target to echo sources for debugging
 list_sources:
 	for FILE in $(SOURCES); do \
+		echo $$FILE; \
+	done
+
+list_all: list_sources
+	for FILE in $(shell find Include -type f -name *.h); do \
 		echo $$FILE; \
 	done
 

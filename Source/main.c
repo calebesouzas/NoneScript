@@ -36,7 +36,7 @@ main(int argc, char *argv[]) {
       perror("Failed to open file");
       return FileOperationFailed;
     }
-    size_t fileSize = 0;
+    int fileSize = 0;
     // Get the position of the EOF (End Of File) constant
     fseek(pNSFile, 0, SEEK_END);
     fileSize = ftell(pNSFile); // and asign it to `fileSize`
@@ -107,7 +107,7 @@ run(const char *sourceCode) {
     }
   }
   else {
-    for (int i = 0; i < lexerResult.count; i++) {
+    for (size_t i = 0; i < lexerResult.count; i++) {
       printf("Found token: { value: %s },\n",
               lexerResult.tokens[i].value);
     }

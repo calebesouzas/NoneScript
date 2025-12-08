@@ -1,0 +1,8 @@
+[
+  {
+    "directory": "/data/data/com.termux/files/home/dev/calebe/NoneScript",
+    "command": "gcc -Werror -Wall -IInclude -c Source/main.c -o Build/obj/main.o",
+    "file": "Source/main.c"
+  }
+]
+

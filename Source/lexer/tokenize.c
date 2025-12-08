@@ -4,22 +4,33 @@
 #include <ctype.h>
 #include "lexer.h"
 
-void
-check_for_reserved_keyword(token_t *token) {
+/* Function `check_for_reserved_keyword`:
+ * takes a `token_t` pointer as a parameter. 
+ * Compares the `token_t`->value to each keyword,
+ * if someone matches, it sets `token_t`->type to the corresponding keyword */
+
+void check_for_reserved_keyword(token_t *token) {
   const char *identifier = token->value;
   if (!strncmp(identifier, "let", 3)) {
-    token->type = Let;
+    token->type = LetKeyword;
   }
   else if (!strncmp(identifier, "const", 5)) {
-    token->type = Const;
+    token->type = ConstKeyword;
   }
-  return;
 }
 
-void add_token(token_t *tokens, token_t* token, const char *value, unsigned int *index);
+// Function `add_token`: appends a token into a token array
+void add_token(token_t *tokens,     // tokens array
+               token_t* token,      // token to be added
+               const char *value,   // string to be token's value 
+                                    // (optional - when set to NULL)
+               unsigned int *index);// index of last item (auto-increments)
 
-LexerResult
-tokenize(const char *sourceCode) {
+/* Function `tokenize`:
+ * @param string `sourceCode` 
+ * Generates an array of tokens based on `sourceCode`'s content'*/
+
+LexerResult tokenize(const char *sourceCode) {
   size_t sourceCodeSize = strlen(sourceCode);
   token_t *tokens = (token_t *)malloc(sourceCodeSize * sizeof(token_t));
   if (tokens == NULL) {
@@ -38,7 +49,7 @@ tokenize(const char *sourceCode) {
     .status = Ok
   };
 
-  for (int i = 0; i < sourceCodeSize; i++) {
+  for (unsigned int i = 0; i < sourceCodeSize; i++) {
     char currentChar = sourceCode[i];
     // First we check if the current character is any
     // whitespace, tab, newline or return character.
@@ -59,36 +70,29 @@ tokenize(const char *sourceCode) {
       case '*':
       case '/':
         tok.type = BinaryOperator;
-        add_token(tokens, &tok, &currentChar, &tokensAdded);
-        passSwitch = 1;
         break;
       case '!':
         tok.type = ExclamationMark;
-        add_token(tokens, &tok, &currentChar, &tokensAdded);
-        passSwitch = 1;
         break;
       case '?':
         tok.type = QuestionMark;
-        add_token(tokens, &tok, &currentChar, &tokensAdded);
-        passSwitch = 1;
         break;
-
       case '(':
         tok.type = OpenParen;
-        add_token(tokens, &tok, &currentChar, &tokensAdded);
-        passSwitch = 1;
         break;
       case ')':
         tok.type = CloseParen;
-        add_token(tokens, &tok, &currentChar, &tokensAdded);
-        passSwitch = 1;
         break;
-
       case '\0':
         tok.type = EndOfFile;
         tokens[tokensAdded] = tok;
         passSwitch = 1;
         return result;
+
+      default: // Will run for every case, except '\0'
+        add_token(tokens, &tok, &currentChar, &tokensAdded);
+        passSwitch = 1;
+        break;
     }
 
     // Somethings are better to verify with if - else statements
@@ -143,7 +147,11 @@ tokenize(const char *sourceCode) {
 }
 
 void
-add_token(token_t* tokens, token_t *token, const char *value, unsigned int* index) {
+add_token(token_t* tokens,    // tokens array
+          token_t *token,     // token to add
+          const char *value,  // string to be token's value
+          unsigned int* index // `tokensAdded` variable
+          ) {
   if (value != NULL) {
     token->value[0] = *value;
     token->value[1] = '\0';
