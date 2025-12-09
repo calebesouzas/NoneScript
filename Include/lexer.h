@@ -47,10 +47,7 @@ typedef struct {
     Ok,
     Error
   } status;
-  enum {
-    MemoryAllocationFailed,
-    UnrecognizedToken
-  } error;
+  char errorMsg[32];
 } LexerResult;
 
 LexerResult tokenize(const char *sourceCode);

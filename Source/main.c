@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lexer.h"
 
 int run(const char *sourceCode);
@@ -87,17 +88,12 @@ int
 run(const char *sourceCode) {
   LexerResult lexerResult = tokenize(sourceCode);
   if (lexerResult.status == Error) {
-    switch (lexerResult.error) {
-      case MemoryAllocationFailed:
-        perror("Failed to allocate memory for the tokens");
-        return 0;
-      
-      case UnrecognizedToken:
-        printf("Unrecognized token: ");
-        char *unrecognizedToken = lexerResult.tokens[lexerResult.count].value;
-        printf("%s\n", unrecognizedToken);
-        free(lexerResult.tokens);
-        return 0;
+    if (!strncmp(lexerResult.errorMsg, "invalid token", 14)) {
+      printf("Invalid token: %s\n", lexerResult.tokens[lexerResult.count].value);
+      free(lexerResult.tokens);
+    }
+    else {
+      printf("%s\n", lexerResult.errorMsg);
     }
   }
   else {

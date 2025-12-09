@@ -34,11 +34,11 @@ LexerResult tokenize(const char *sourceCode) {
   size_t sourceCodeSize = strlen(sourceCode);
   token_t *tokens = (token_t *)malloc(sourceCodeSize * sizeof(token_t));
   if (tokens == NULL) {
-    return (LexerResult){
+    return (LexerResult) {
       .tokens = NULL,
       .count = 0,
       .status = Error,
-      .error = MemoryAllocationFailed
+      .errorMsg = "memory allocation failed"
     };
   }
   unsigned int tokensAdded = 0;
@@ -141,7 +141,7 @@ LexerResult tokenize(const char *sourceCode) {
         return (LexerResult) {
           .tokens = tokens,
           .status = Error,
-          .error = UnrecognizedToken,
+          .errorMsg = "invalid token",
           .count = tokensAdded
         };
       }
