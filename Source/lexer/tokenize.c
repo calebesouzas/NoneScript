@@ -70,29 +70,34 @@ LexerResult tokenize(const char *sourceCode) {
       case '*':
       case '/':
         tok.type = BinaryOperator;
+        add_token(tokens, &tok, &currentChar, &tokensAdded);
+        passSwitch = 1;
         break;
       case '!':
         tok.type = ExclamationMark;
+        add_token(tokens, &tok, &currentChar, &tokensAdded);
+        passSwitch = 1;
         break;
       case '?':
         tok.type = QuestionMark;
+        add_token(tokens, &tok, &currentChar, &tokensAdded);
+        passSwitch = 1;
         break;
       case '(':
         tok.type = OpenParen;
+        add_token(tokens, &tok, &currentChar, &tokensAdded);
+        passSwitch = 1;
         break;
       case ')':
         tok.type = CloseParen;
+        add_token(tokens, &tok, &currentChar, &tokensAdded);
+        passSwitch = 1;
         break;
       case '\0':
         tok.type = EndOfFile;
         tokens[tokensAdded] = tok;
         passSwitch = 1;
         return result;
-
-      default: // Will run for every case, except '\0'
-        add_token(tokens, &tok, &currentChar, &tokensAdded);
-        passSwitch = 1;
-        break;
     }
 
     // Somethings are better to verify with if - else statements
