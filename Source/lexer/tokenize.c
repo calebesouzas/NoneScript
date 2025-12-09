@@ -27,8 +27,8 @@ void add_token(token_t *tokens,     // tokens array
                unsigned int *index);// index of last item (auto-increments)
 
 /* Function `tokenize`:
- * @param string `sourceCode` 
- * Generates an array of tokens based on `sourceCode`'s content'*/
+ * @param string `sourceCode`
+ * Generates an array of tokens based on `sourceCode`'s content' */
 
 LexerResult tokenize(const char *sourceCode) {
   size_t sourceCodeSize = strlen(sourceCode);

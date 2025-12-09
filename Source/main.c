@@ -3,12 +3,6 @@
 #include <stdlib.h>
 #include "lexer.h"
 
-enum Error {
-  FileOperationFailed,
-  MemoryAllocationError,
-  ScriptRunningFailure
-};
-
 int run(const char *sourceCode);
 
 /* Function `main`. The entry point of the program.
@@ -34,7 +28,7 @@ main(int argc, char *argv[]) {
     pNSFile = fopen(argv[1], "r");
     if (pNSFile == NULL) {
       perror("Failed to open file");
-      return FileOperationFailed;
+      return 1;
     }
     int fileSize = 0;
     // Get the position of the EOF (End Of File) constant
@@ -45,7 +39,7 @@ main(int argc, char *argv[]) {
     if (fileSize == -1) {
       perror("Failed to get file size");
       fclose(pNSFile);
-      return FileOperationFailed;
+      return 1;
     }
 
     fseek(pNSFile, 0, SEEK_SET); // Go back to the begining
@@ -57,7 +51,7 @@ main(int argc, char *argv[]) {
     if (pNoneScript == NULL) {
       perror("Failed to allocate memory for the script");
       fclose(pNSFile);
-      return MemoryAllocationError;
+      return 1;
     }
 
     // Getting index of last character (size of NoneScript buffer + 1)
@@ -69,7 +63,7 @@ main(int argc, char *argv[]) {
       fputs("Failed to read file", stderr);
       free(pNoneScript);
       fclose(pNSFile);
-      return FileOperationFailed;
+      return 1;
     }
     else {
       pNoneScript[lastChar] = '\0'; // Null terminate the buffer
@@ -80,13 +74,13 @@ main(int argc, char *argv[]) {
     int ranSuccessfully = run(pNoneScript);
     if (!ranSuccessfully) {
       printf("Failed to run script");
-      return ScriptRunningFailure;
+      return 1;
     }
 
     free(pNoneScript);
     pNoneScript = NULL;
   }
-    return 0;
+  return 0;
 }
 
 int
