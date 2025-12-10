@@ -22,8 +22,8 @@ mkdir -p "$BACKUP_DIR"
 # -f : specify the output FILENAME
 # '.' : target the current directory
 tar -czvf "$FILENAME" \
-    --exclude='../.git' \
-    --exclude="../$BACKUP_DIR" \
+    --exclude='.git' \
+    --exclude="$BACKUP_DIR" \
     ..
 
 # --- Completion ---
