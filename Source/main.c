@@ -5,16 +5,16 @@
 #include "parser.h"
 
 void
-run(const char *sourceCode) {
+run(const char *sourceCode, unsigned int fileSize) {
   TokenArray tokensArray;
   tokensArray.count = 0;
   tokensArray.tokens = NULL;
-  tokensArray.tokens = (Token*)malloc(strlen(sourceCode) * sizeof(Token));
+  tokensArray.tokens = (Token*)malloc(fileSize * sizeof(Token));
   if (tokensArray.tokens == NULL) {
     printf("Failed to allocate memory for tokens\n");
     exit(1);
   }
-  Result lexerResult = genTokenArray(&tokensArray, sourceCode);
+  Result lexerResult = genTokenArray(&tokensArray, sourceCode, fileSize);
   if (lexerResult.status == Error) {
     printf("%s\n", lexerResult.error);
     exit(1);
@@ -91,7 +91,7 @@ main(int argc, char *argv[]) {
       pNSFile = NULL;
     }
 
-    run(pNoneScript);
+    run(pNoneScript, fileSize);
     free(pNoneScript);
     pNoneScript = NULL;
   }

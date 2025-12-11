@@ -45,6 +45,8 @@ typedef struct {
   unsigned int  count;
 } TokenArray;
 
-Result genTokenArray(TokenArray* tokenArray, const char *sourceCode);
+Result genTokenArray(TokenArray* tokenArray,
+                     const char *sourceCode,
+                     unsigned int fileSize);
 
 #endif /* ifndef NONE_LEXER_H */

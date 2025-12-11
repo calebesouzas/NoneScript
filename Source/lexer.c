@@ -92,10 +92,12 @@ unsigned int getTokenType(Token* token, const char *string, Result* result) {
   return count;
 }
 
-Result genTokenArray(TokenArray* tokenArray, const char *sourceCode) {
+Result genTokenArray(TokenArray* tokenArray,
+                     const char *sourceCode,
+                     unsigned int fileSize) {
   Result result = {.status = Ok};
   memset(result.error, 0, sizeof(result.error));
-  for (int i = 0; i < sizeof(sourceCode); i++) {
+  for (int i = 0; i < fileSize; i++) {
     char currentChar = sourceCode[i];
     Token token = {.longValue = NULL};
     memset(token.value, 0, sizeof(token.value));
