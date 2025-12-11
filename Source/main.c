@@ -1,10 +1,22 @@
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "lexer.h"
+#include "parser.h"
 
-int run(const char *sourceCode);
+void
+run(const char *sourceCode) {
+  TokenArray tokensArray;
+  tokensArray.count = 0;
+  tokensArray.tokens = NULL;
+  tokensArray.tokens = (Token*)malloc(sizeof(sourceCode));
+  if (tokensArray.tokens == NULL) {
+    printf("Failed to allocate memory for tokens\n");
+    exit(1);
+  }
+  tokenize(&tokensArray, sourceCode);
+  parse(&tokensArray);
+}
 
 /* Function `main`. The entry point of the program.
  * It takes two arguments (which are given by the Shell).
@@ -72,36 +84,10 @@ main(int argc, char *argv[]) {
       pNSFile = NULL;
     }
 
-    int ranSuccessfully = run(pNoneScript);
-    if (!ranSuccessfully) {
-      printf("Failed to run script");
-      return 1;
-    }
-
+    run(pNoneScript);
     free(pNoneScript);
     pNoneScript = NULL;
   }
   return 0;
 }
 
-int
-run(const char *sourceCode) {
-  LexerResult lexerResult = tokenize(sourceCode);
-  if (lexerResult.status == Error) {
-    if (!strncmp(lexerResult.errorMsg, "invalid token", 14)) {
-      printf("Invalid token: %s\n", lexerResult.tokens[lexerResult.count].value);
-      free(lexerResult.tokens);
-    }
-    else {
-      printf("%s\n", lexerResult.errorMsg);
-    }
-  }
-  else {
-    for (size_t i = 0; i < lexerResult.count; i++) {
-      printf("Found token: { value: %s },\n",
-              lexerResult.tokens[i].value);
-    }
-  }
-
-  return 1;
-}

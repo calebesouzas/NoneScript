@@ -1,6 +1,7 @@
 #ifndef NONE_PARSER_H
 #define NONE_PARSER_H
+#include "lexer.h"
 
-#define test() printf("Hello world!\n")
+void parse(TokenArray* tokenArray);
 
 #endif /* NONE_PARSER_H */
