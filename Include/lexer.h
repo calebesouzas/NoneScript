@@ -1,5 +1,6 @@
 #ifndef NONE_LEXER_H
 #define NONE_LEXER_H
+#include "errors.h"
 
 typedef enum {
   BinaryOperator,
@@ -9,6 +10,7 @@ typedef enum {
 
   LetKeyword,
   RangeKeyword,
+  ConstKeyword,
 
   Identifier,
 
@@ -27,6 +29,7 @@ typedef enum {
   StringLiteral,
   RegexString,
 
+  EscapeSequence,
 
   EndOfFile
 } TokenType;
@@ -42,6 +45,6 @@ typedef struct {
   unsigned int  count;
 } TokenArray;
 
-void tokenize(TokenArray* tokenArray, const char *sourceCode);
+Result genTokenArray(TokenArray* tokenArray, const char *sourceCode);
 
 #endif /* ifndef NONE_LEXER_H */

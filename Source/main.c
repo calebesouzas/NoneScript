@@ -9,13 +9,20 @@ run(const char *sourceCode) {
   TokenArray tokensArray;
   tokensArray.count = 0;
   tokensArray.tokens = NULL;
-  tokensArray.tokens = (Token*)malloc(sizeof(sourceCode));
+  tokensArray.tokens = (Token*)malloc(strlen(sourceCode) * sizeof(Token));
   if (tokensArray.tokens == NULL) {
     printf("Failed to allocate memory for tokens\n");
     exit(1);
   }
-  tokenize(&tokensArray, sourceCode);
-  parse(&tokensArray);
+  Result lexerResult = genTokenArray(&tokensArray, sourceCode);
+  if (lexerResult.status == Error) {
+    printf("%s\n", lexerResult.error);
+    exit(1);
+  }
+  else {
+    parse(&tokensArray);
+    free(tokensArray.tokens);
+  }
 }
 
 /* Function `main`. The entry point of the program.

@@ -17,7 +17,7 @@ Build/bin/none: $(OBJECTS)
 	$(CC) $^ -o $@ $(CFLAGS)
 
 # Pattern rule to compile each .c to .o (creates subdirs as needed)
-./Build/obj/%.o: ./Source/%.c
+./Build/obj/%.o: ./Source/%.c clean
 	$(MKDIR) $(@D)
 	$(CC) -c $< -o $@ $(CFLAGS)
 

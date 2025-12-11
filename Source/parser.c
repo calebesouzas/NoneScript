@@ -3,8 +3,7 @@
 #include "parser.h"
 
 void parse(TokenArray* tokenArray) {
-  TokenArray tokens = *tokenArray;
-  for (int i = 0; i < tokens.count; i++) {
-    printf("Found token: %s", tokens.tokens[i].value);
+  for (int i = 0; i < tokenArray->count; i++) {
+    printf("Found token: %s\n", tokenArray->tokens[i].value);
   }
 }
