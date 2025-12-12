@@ -7,25 +7,32 @@
 
 int getSimpleTokenType(Token* token, char character) {
   switch (character) {
-    case '\\':
-      token->type = EscapeSequence;
-      break;
+    case '\\':  token->type = EscapeSequence;   break;
+
     case '+':
     case '-':
     case '*':
-    case '/':
-      token->type = BinaryOperator;
-      break;
-    case '(':
-    case '[':
-    case '{':
-      token->type = OpenGroup;
-      break;
-    case ')':
-    case ']':
-    case '}':
-      token->type = CloseGroup;
-      break;
+    case '/':   token->type = BinaryOperator;   break;
+
+    case '&':   token->type = BitwiseAnd;       break;
+    case '|':   token->type = BitwiseOr;        break;
+    case '^':   token->type = BitwiseXOr;       break;
+
+    case '.':   token->type = DotOperator;      break;
+    case ':':   token->type = CollonOperator;   break;
+
+    case '(':   token->type = OpenParen;        break;
+    case '[':   token->type = OpenBrackets;     break;
+    case '{':   token->type = OpenBraces;       break;
+
+    case ')':   token->type = CloseParen;       break;
+    case ']':   token->type = CloseBrackets;    break;
+    case '}':   token->type = CloseBraces;      break;
+
+    case '!':   token->type = NotOperator;      break;
+    case '=':   token->type = Equals;           break;
+    case '<':   token->type = LessThan;         break;
+    case '>':   token->type = GreaterThan;      break;
     default:
       return 0;
   }
@@ -34,16 +41,44 @@ int getSimpleTokenType(Token* token, char character) {
 }
 
 int keywordToken(Token* token, const char *identifier) {
-  if (!strncmp(identifier, "let", 3)) {
-    token->type = LetKeyword;
+  if (!strncmp(identifier, "if", 2)) {
+    token->type = KeywordIf;
     return 1;
   }
-  else if (!strncmp(identifier, "range", 5)) {
-    token->type = RangeKeyword;
+  else if (!strncmp(identifier, "let", 3)) {
+    token->type = KeywordLet;
+    return 1;
+  }
+  else if (!strncmp(identifier, "set", 3)) {
+    token->type = KeywordSet;
+    return 1;
+  }
+  else if (!strncmp(identifier, "end", 3)) {
+    token->type = KeywordEnd;
+    return 1;
+  }
+  else if (!strncmp(identifier, "else", 4)) {
+    token->type = KeywordElse;
+    return 1;
+  }
+  else if (!strncmp(identifier, "enum", 4)) {
+    token->type = KeywordEnum;
     return 1;
   }
   else if (!strncmp(identifier, "const", 5)) {
-    token->type = ConstKeyword;
+    token->type = KeywordConst;
+    return 1;
+  }
+  else if (!strncmp(identifier, "range", 5)) {
+    token->type = KeywordRange;
+    return 1;
+  }
+  else if (!strncmp(identifier, "class", 5)) {
+    token->type = KeywordClass;
+    return 1;
+  }
+  else if (!strncmp(identifier, "struct", 6)) {
+    token->type = KeywordStruct;
     return 1;
   }
   return 0;
@@ -51,7 +86,7 @@ int keywordToken(Token* token, const char *identifier) {
 
 unsigned int getTokenType(Token* token, const char *string, Result* result) {
   unsigned int count = 0;
-  if (isdigit(string[count]) || (string[count] == '.' && count > 0)) {
+  if (isdigit(string[count])) {
     token->type = Number;
     while (isdigit(string[count])) { count++; }
     if (count > sizeof(token->value)) {
@@ -119,5 +154,6 @@ Result genTokenArray(TokenArray* tokenArray,
     tokenArray->tokens[tokenArray->count] = token;
     tokenArray->count++;
   }
+  tokenArray->tokens[tokenArray->count] = (Token) {.type = EndOfFile};
   return result;
 }
