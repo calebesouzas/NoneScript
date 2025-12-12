@@ -3,35 +3,54 @@
 #include "errors.h"
 
 typedef enum {
-  BinaryOperator,
+  BinaryOperator,   // check
+  
+  BitwiseAnd,       // check
+  BitwiseOr,        // check
+  BitwiseXOr,       // check
 
-  OpenGroup,
-  CloseGroup,
+  DotOperator,      // check
+  CollonOperator,   // check
 
-  LetKeyword,
-  RangeKeyword,
-  ConstKeyword,
+  OpenParen,        // check
+  OpenBraces,       // check
+  OpenBrackets,     // check
 
-  Identifier,
+  CloseParen,       // check
+  CloseBraces,      // check
+  CloseBrackets,    // check
 
-  Dot,
-  Collon,
+  KeywordLet,       // check
+  KeywordSet,       // check
+  KeywordConst,     // check
 
-  Question,
-  Exclamation,
+  KeywordEnd,       // check
 
-  Equals,
-  LessThan,
-  GreaterThan,
+  KeywordRange,     // check
 
-  Number,
+  KeywordIf,        // check
+  KeywordElse,      // check
 
-  StringLiteral,
-  RegexString,
+  KeywordEnum,      // check
+  KeywordStruct,    // check
+  KeywordClass,     // check
 
-  EscapeSequence,
+  Identifier,       // check
 
-  EndOfFile
+  Equals,           // check
+  NotOperator,      // check
+  LessThan,         // check
+  GreaterThan,      // check
+
+  Number,           // check
+  DecimalNumber,    // not check
+
+  StringLiteral,    // not check
+  RegexString,      // not check
+
+  EscapeSequence,   // check
+
+  EndOfFile         // check
 } TokenType;
 
 typedef struct {
