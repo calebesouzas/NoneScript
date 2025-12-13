@@ -40,45 +40,60 @@ int getSimpleTokenType(Token* token, char character) {
   return 1;
 }
 
-int keywordToken(Token* token, const char *identifier) {
+int keywordToken(Token* token, const char *identifier, unsigned int *count) {
   if (!strncmp(identifier, "if", 2)) {
     token->type = KeywordIf;
+    *count += 2;
     return 1;
   }
   else if (!strncmp(identifier, "let", 3)) {
     token->type = KeywordLet;
+    *count += 3;
     return 1;
   }
   else if (!strncmp(identifier, "set", 3)) {
     token->type = KeywordSet;
+    *count += 3;
     return 1;
   }
   else if (!strncmp(identifier, "end", 3)) {
     token->type = KeywordEnd;
+    *count += 3;
+    return 1;
+  }
+  else if (!strncmp(identifier, "use", 3)) {
+    token->type = KeywordUse;
+    *count += 3;
     return 1;
   }
   else if (!strncmp(identifier, "else", 4)) {
     token->type = KeywordElse;
+    *count += 4;
     return 1;
   }
   else if (!strncmp(identifier, "enum", 4)) {
     token->type = KeywordEnum;
+    *count += 4;
     return 1;
   }
   else if (!strncmp(identifier, "const", 5)) {
     token->type = KeywordConst;
+    *count += 5;
     return 1;
   }
   else if (!strncmp(identifier, "range", 5)) {
     token->type = KeywordRange;
+    *count += 5;
     return 1;
   }
   else if (!strncmp(identifier, "class", 5)) {
     token->type = KeywordClass;
+    *count += 5;
     return 1;
   }
   else if (!strncmp(identifier, "struct", 6)) {
     token->type = KeywordStruct;
+    *count += 6;
     return 1;
   }
   return 0;
@@ -86,7 +101,7 @@ int keywordToken(Token* token, const char *identifier) {
 
 unsigned int getTokenType(Token* token, const char *string, Result* result) {
   unsigned int count = 0;
-  if (isdigit(string[count])) {
+  if (isdigit(string[count]) || (string[count] == '.' && count > 0)) {
     token->type = Number;
     while (isdigit(string[count])) { count++; }
     if (count > sizeof(token->value)) {
@@ -101,12 +116,12 @@ unsigned int getTokenType(Token* token, const char *string, Result* result) {
       strncpy(token->value, string, count);
     }
   }
-  else if (isalpha(string[count]) || (string[count] == '.' && count > 0)) {
+  else if (isalpha(string[count])) {
     token->type = Identifier;
 
-    if (keywordToken(token, string)) {return count;}
+    if (keywordToken(token, string, &count)) {return count;}
 
-    while (isalpha(string[count])) { count++; }
+    while (isalpha(string[count]) || (isdigit(string[count]) && count > 1)) { count++; }
     if (count > sizeof(token->value)) {
       token->longValue = (char*)malloc(count);
       if (token->longValue == NULL) {
