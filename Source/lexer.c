@@ -139,7 +139,7 @@ unsigned int getTokenType(Token* token, const char *string, Result* result) {
     strncpy(result->error, "Invalid Token: ", sizeof(result->error));
     strncat(result->error, string, strlen(string));
   }
-  return count > 1 ? count : 0;
+  return count > 1 ? count - 1 : 0;
 }
 
 Result genTokenArray(TokenArray* tokenArray,
