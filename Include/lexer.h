@@ -24,6 +24,8 @@ typedef enum {
   KeywordSet,       // check
   KeywordConst,     // check
 
+  KeywordUse,       // check
+
   KeywordEnd,       // check
 
   KeywordRange,     // check
