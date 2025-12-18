@@ -160,11 +160,9 @@ Result genTokenArray(TokenArray* tokenArray,
         continue;
     }
     if (!getSimpleTokenType(&token, currentChar)) {
-      Result tokenTypeResult = {.status = Ok};
-      memset(tokenTypeResult.error, 0, sizeof(tokenTypeResult.error));
       i += getTokenType(&token, sourceCode + i, &result);
-      if (tokenTypeResult.status == Error) {
-        return tokenTypeResult;
+      if (result.status == Error) {
+        return result;
       }
     }
     tokenArray->tokens[tokenArray->count] = token;

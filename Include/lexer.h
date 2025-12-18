@@ -11,6 +11,8 @@ typedef enum {
 
   DotOperator,      // check
   CollonOperator,   // check
+  AtOperator,       // check
+  NoneOperator,     // check
 
   OpenParen,        // check
   OpenBraces,       // check
