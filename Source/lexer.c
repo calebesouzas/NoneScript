@@ -140,7 +140,7 @@ unsigned int getTokenType(Token* token, const char *string, Result* result) {
   else {
     result->status = Error;
     strncpy(result->error, "Invalid Token: ", sizeof(result->error));
-    strncat(result->error, string, strlen(string));
+    strncat(result->error, &string[0], 1);
   }
   return count > 1 ? count - 1 : 0;
 }
