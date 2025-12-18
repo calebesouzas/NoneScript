@@ -20,6 +20,8 @@ int getSimpleTokenType(Token* token, char character) {
 
     case '.':   token->type = DotOperator;      break;
     case ':':   token->type = CollonOperator;   break;
+    case '@':   token->type = AtOperator;       break;
+    case '?':   token->type = NoneOperator;     break;
 
     case '(':   token->type = OpenParen;        break;
     case '[':   token->type = OpenBrackets;     break;
