@@ -21,6 +21,7 @@ int getSimpleTokenType(Token* token, char character) {
     case '.':   token->type = DotOperator;      break;
     case ':':   token->type = CollonOperator;   break;
     case '@':   token->type = AtOperator;       break;
+    case '$':   token->type = DollarOperator;   break;
     case '?':   token->type = NoneOperator;     break;
 
     case '(':   token->type = OpenParen;        break;
@@ -35,6 +36,8 @@ int getSimpleTokenType(Token* token, char character) {
     case '=':   token->type = Equals;           break;
     case '<':   token->type = LessThan;         break;
     case '>':   token->type = GreaterThan;      break;
+
+    case '"':   token->type = String;           break;
     default:
       return 0;
   }

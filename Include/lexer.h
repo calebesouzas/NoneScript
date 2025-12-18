@@ -13,6 +13,7 @@ typedef enum {
   CollonOperator,   // check
   AtOperator,       // check
   NoneOperator,     // check
+  DollarOperator,   // check
 
   OpenParen,        // check
   OpenBraces,       // check
@@ -49,8 +50,7 @@ typedef enum {
   Number,           // check
   DecimalNumber,    // not check
 
-  StringLiteral,    // not check
-  RegexString,      // not check
+  String,           // check
 
   EscapeSequence,   // check
 
