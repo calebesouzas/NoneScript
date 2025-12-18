@@ -116,12 +116,13 @@ unsigned int getTokenType(Token* token, const char *string, Result* result) {
       strncpy(token->value, string, count);
     }
   }
-  else if (isalpha(string[count])) {
+  else if (isalpha(string[count]) || string[count] == '_') {
     token->type = Identifier;
 
     if (keywordToken(token, string, &count)) {return count;}
 
-    while (isalpha(string[count]) || (isdigit(string[count]) && count > 1)) { count++; }
+    while (isalpha(string[count]) || (isdigit(string[count]) && count > 1)
+          || string[count] == '_') { count++; }
     if (count > sizeof(token->value)) {
       token->longValue = (char*)malloc(count);
       if (token->longValue == NULL) {
