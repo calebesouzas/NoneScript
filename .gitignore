@@ -2,3 +2,4 @@
 [Bb]uild/
 [Gg]enerated/
 .cache/
+compile_commands.json
