@@ -1,7 +1,7 @@
 #ifndef NONE_LEXER_H
 #define NONE_LEXER_H
 
-#define NONE_TOKEN_ALLOCATION 64
+#define NONE_TOKEN_ALLOCATION sizeof(token_t) * 64
 
 typedef enum {
   EndOfFile,
@@ -36,6 +36,6 @@ token_array_t initTokenArray();
 
 void appendTokenArray(token_array_t* ta, token_t* t);
 
-void tokenize(const char *buffer);
+void tokenize(const char *buffer, unsigned int* lines, unsigned int* columns);
 
 #endif /* NONE_LEXER_H */

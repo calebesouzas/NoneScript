@@ -1,5 +1,5 @@
 #include "NoneScript.h"
-#include "lexer/lexer.h"
+#include "lexer.h"
 
 #include <stdio.h>
 
@@ -19,10 +19,12 @@ None_RunFile(const char *fileName) {
 
   char buffer[MAX_LINE_LENGTH] = {0};
 
-  token_array_t ta = initTokenArray();
-  unsigned int lines = 0;
+  unsigned int lines = 1;
+  unsigned int columns = 1;
   while (fgets(buffer, MAX_LINE_LENGTH, noneFile) != NULL) {
-    ++lines;
+    const char *string = buffer + columns - 1;
+    
+    lines = lines + 1;
   }
 
   return (None_Result) {.status = Ok};
