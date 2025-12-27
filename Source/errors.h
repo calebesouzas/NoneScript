@@ -10,4 +10,6 @@ typedef struct {
   char error[32];
 } Result;
 
+void panic(const char *local, const char *reason, const char **details);
+
 #endif /* ERRORS_H */

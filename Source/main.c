@@ -1,29 +1,9 @@
+#include "NoneScript.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lexer.h"
-#include "parser.h"
 
-void
-run(const char *sourceCode, unsigned int fileSize) {
-  TokenArray tokensArray;
-  tokensArray.count = 0;
-  tokensArray.tokens = NULL;
-  tokensArray.tokens = (Token*)malloc(fileSize * sizeof(Token));
-  if (tokensArray.tokens == NULL) {
-    printf("Failed to allocate memory for tokens\n");
-    exit(1);
-  }
-  Result lexerResult = genTokenArray(&tokensArray, sourceCode, fileSize);
-  if (lexerResult.status == Error) {
-    printf("%s\n", lexerResult.error);
-    exit(1);
-  }
-  else {
-    parse(&tokensArray);
-    free(tokensArray.tokens);
-  }
-}
 
 /* Function `main`. The entry point of the program.
  * It takes two arguments (which are given by the Shell).
@@ -91,7 +71,7 @@ main(int argc, char *argv[]) {
       pNSFile = NULL;
     }
 
-    run(pNoneScript, fileSize);
+    None_Run(pNoneScript, fileSize);
     free(pNoneScript);
     pNoneScript = NULL;
   }

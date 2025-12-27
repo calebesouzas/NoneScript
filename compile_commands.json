@@ -1,8 +1,37 @@
 [
-  {
-    "directory": "/data/data/com.termux/files/home/dev/calebe/NoneScript",
-    "command": "gcc -Werror -Wall -IInclude -c Source/main.c -o Build/obj/main.o",
-    "file": "Source/main.c"
-  }
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Source/main.c -o ./Build/obj/main.o -IInclude -Werror -Wall",
+        "file": "Source/main.c"
+    },
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Source/lexer/arrays.c -o ./Build/obj/lexer/arrays.o -IInclude -Werror -Wall",
+        "file": "Source/lexer/arrays.c"
+    },
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Source/lexer/keywords.c -o ./Build/obj/lexer/keywords.o -IInclude -Werror -Wall",
+        "file": "Source/lexer/keywords.c"
+    },
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Source/lexer/types.c -o ./Build/obj/lexer/types.o -IInclude -Werror -Wall",
+        "file": "Source/lexer/types.c"
+    },
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Source/lexer/values.c -o ./Build/obj/lexer/values.o -IInclude -Werror -Wall",
+        "file": "Source/lexer/values.c"
+    },
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Source/NoneScript.c -o ./Build/obj/NoneScript.o -IInclude -Werror -Wall",
+        "file": "Source/NoneScript.c"
+    },
+    {
+        "directory": "/data/data/com.termux/files/home/dev/NoneScript",
+        "command": "gcc -c ./Tests/cast-types.c -o ./Tests/cast-types.o -IInclude -Werror -Wall",
+        "file": "Tests/cast-types.c"
+    }
 ]
-
